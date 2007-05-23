@@ -1,7 +1,7 @@
 %define rname emerald
 %define name %{rname}
 %define version 0.2.0
-%define release %mkrel 1
+%define release %mkrel 2
 
 %define lib_major 0
 %define lib_name %mklibname %{name} %lib_major
@@ -51,6 +51,7 @@ Themable window decorator for the Beryl window manager/compositor
 %{_datadir}/applications/%{name}*.desktop
 %{_datadir}/mime-info/%{name}.mime
 %{_datadir}/mime/packages/%{name}.xml
+%{_datadir}/mimelnk/application/x-%{name}-theme.desktop
 %{_datadir}/pixmaps/%{name}*.png
 %{_datadir}/icons/hicolor/48x48/mimetypes/*.png
 %{_datadir}/%{name}/*
@@ -118,20 +119,29 @@ Headers files for %{name}
 %make
 
 %install
-rm -rf %buildroot
+rm -rf %{buildroot}
 %makeinstall_std
 %find_lang %{name}
 
-sed -i 's/Exec=emerald-theme-manager -i//' $RPM_BUILD_ROOT%{_datadir}/applications/emerald-theme-manager.desktop
+sed -i 's/Exec=emerald-theme-manager -i//' %{buildroot}%{_datadir}/applications/emerald-theme-manager.desktop
 
 desktop-file-install \
   --vendor="" \
   --remove-category="Settings" \
   --add-category="X-MandrivaLinux-System-Configuration-Other" \
-  --dir $RPM_BUILD_ROOT%{_datadir}/applications \
-  $RPM_BUILD_ROOT%{_datadir}/applications/*.desktop
+  --dir %{buildroot}%{_datadir}/applications \
+  %{buildroot}%{_datadir}/applications/*.desktop
+
+mkdir -p %{buildroot}%{_datadir}/mimelnk/application
+cat >%{buildroot}%{_datadir}/mimelnk/application/x-%{name}-theme.desktop <<EOF
+[Desktop Entry]
+Type=MimeType
+Comment=Emerald Theme
+MimeType=application/x-emerald-theme
+Patterns=*.emerald
+EOF
 
 %clean
-rm -rf %buildroot
+rm -rf %{buildroot}
 
 

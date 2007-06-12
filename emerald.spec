@@ -1,7 +1,7 @@
 %define rname emerald
 %define name %{rname}
-%define version 0.2.0
-%define release %mkrel 2
+%define version 0.2.1
+%define release %mkrel 1
 
 %define lib_major 0
 %define lib_name %mklibname %{name} %lib_major

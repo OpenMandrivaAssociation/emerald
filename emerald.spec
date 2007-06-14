@@ -14,6 +14,7 @@ Summary: Window decorator for beryl
 Group: System/X11
 URL: http://www.beryl-project.org/
 Source: http://releases.beryl-project.org/%{version}/%{name}-%{version}.tar.bz2
+Patch1: %name-0.2.1-no_wnck_modal.patch
 License: GPL
 BuildRoot: %{_tmppath}/%{name}-root
 BuildRequires: beryl-core-devel = %{version}
@@ -108,6 +109,7 @@ Headers files for %{name}
 
 %prep
 %setup -q
+%patch1 -p1
 
 %build
 %configure2_5x \

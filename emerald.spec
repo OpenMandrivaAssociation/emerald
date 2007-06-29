@@ -1,23 +1,32 @@
-%define rname emerald
-%define name %{rname}
-%define version 0.2.1
-%define release %mkrel 1
+%define name emerald
+%define version 0.3.0
+%define rel 1
+%define git 20070627
 
-%define lib_major 0
-%define lib_name %mklibname %{name} %lib_major
-%define lib_name_devel %mklibname -d %{name} %lib_major
+%define major 0
+%define libname %mklibname %{name} %major
+%define libname_devel %mklibname -d %{name}
+
+%if  %{git}
+%define srcname %{name}-%{version}-%{git}
+%define distname %{name}
+%define release %mkrel 0.%{git}.%{rel}
+%else
+%define srcname %{name}-%{version}
+%define distname %{name}-%{version}
+%define release %mkrel %{rel}
+%endif
 
 Name: %name
 Version: %version
 Release: %release
-Summary: Window decorator for beryl
+Summary: Window decorator for Compiz
 Group: System/X11
-URL: http://www.beryl-project.org/
-Source: http://releases.beryl-project.org/%{version}/%{name}-%{version}.tar.bz2
-Patch1: %name-0.2.1-no_wnck_modal.patch
+URL: http://www.compiz-fusion.org/
+Source: %{srcname}.tar.bz2
 License: GPL
 BuildRoot: %{_tmppath}/%{name}-root
-BuildRequires: beryl-core-devel = %{version}
+BuildRequires: compiz-devel
 BuildRequires: apr-devel
 BuildRequires: apr-util-devel
 BuildRequires: subversion-devel
@@ -27,15 +36,11 @@ BuildRequires: desktop-file-utils
 Requires(post): desktop-file-utils
 Requires(postun): desktop-file-utils
 
-Requires: beryl-core
+Requires: compiz
 Requires: emerald-themes
 
-# cgwd was renamed to emerald
-Provides: cgwd
-Obsoletes: cgwd
-
 %description
-Themable window decorator for the Beryl window manager/compositor
+Themable window decorator for the Compiz window manager/compositor
 
 %post
 %update_menus
@@ -45,73 +50,45 @@ Themable window decorator for the Beryl window manager/compositor
 %clean_menus
 %{clean_desktop_database}
 
-%files -f %{name}.lang
-%defattr(-,root,root)
-%doc AUTHORS  ChangeLog README COPYING 
-%{_bindir}/%{name}*
-%{_datadir}/applications/%{name}*.desktop
-%{_datadir}/mime-info/%{name}.mime
-%{_datadir}/mime/packages/%{name}.xml
-%{_datadir}/mimelnk/application/x-%{name}-theme.desktop
-%{_datadir}/pixmaps/%{name}*.png
-%{_datadir}/icons/hicolor/48x48/mimetypes/*.png
-%{_datadir}/%{name}/*
-%{_mandir}/man1/%{name}*.1*
-
 #----------------------------------------------------------------------------
 
-%package -n %lib_name
+%package -n %libname
 Summary: Library files for %{name}
 Group: System/X11
 Requires: %{name} = %{version}
-Provides: %lib_name = %version
+Provides: %libname = %version
 
-%description -n %lib_name
+%description -n %libname
 Library files for %{name}
 
-%post -n %lib_name -p /sbin/ldconfig
+%post -n %libname -p /sbin/ldconfig
 
-%postun -n %lib_name -p /sbin/ldconfig
-
-%files -n %lib_name
-%defattr(-,root,root)
-%{_libdir}/lib%{name}engine.so.*
-%{_libdir}/%{name}/engines/*.so
+%postun -n %libname -p /sbin/ldconfig
 
 #----------------------------------------------------------------------------
 
-%package -n %lib_name_devel
+%package -n %libname_devel
 Summary: Development files from %{name}
 Group: Development/Other
-Requires: %lib_name = %{version}
+Requires: %libname = %{version}
 Provides: lib%{name}-devel = %{version}
 Provides: %{name}-devel = %{version}
 Obsoletes: %{name}-devel
 Obsoletes: cgwd-devel
 
-%description -n %lib_name_devel
+%description -n %libname_devel
 Headers files for %{name}
-
-%post -n %lib_name_devel -p /sbin/ldconfig
-
-%files -n %lib_name_devel
-%defattr(-,root,root)
-%{_libdir}/pkgconfig/%{name}engine.pc
-%dir %{_includedir}/%{name}
-%{_includedir}/%{name}/*
-%{_libdir}/lib%{name}engine.so
-%{_libdir}/lib%{name}engine.a
-%{_libdir}/lib%{name}engine.la
-%{_libdir}/%{name}/engines/*.a
-%{_libdir}/%{name}/engines/*.la
 
 #----------------------------------------------------------------------------
 
 %prep
-%setup -q
-%patch1 -p1
+%setup -q -n %{distname}
 
 %build
+%if %{git}
+  # This is a GIT snapshot, so we need to generate makefiles.
+  sh autogen.sh -V
+%endif
 %configure2_5x \
                 --disable-mime-update \
                 --with-apr-config=apr-1-config \
@@ -126,6 +103,7 @@ rm -rf %{buildroot}
 %find_lang %{name}
 
 sed -i 's/Exec=emerald-theme-manager -i//' %{buildroot}%{_datadir}/applications/emerald-theme-manager.desktop
+sed -i 's/^\( \)*$//' %{buildroot}%{_datadir}/applications/emerald-theme-manager.desktop
 
 desktop-file-install \
   --vendor="" \
@@ -146,4 +124,34 @@ EOF
 %clean
 rm -rf %{buildroot}
 
+#----------------------------------------------------------------------------
+
+%files -f %{name}.lang
+%defattr(-,root,root)
+%doc AUTHORS  ChangeLog README COPYING 
+%{_bindir}/%{name}*
+%{_datadir}/applications/%{name}*.desktop
+%{_datadir}/mime-info/%{name}.mime
+%{_datadir}/mime/packages/%{name}.xml
+%{_datadir}/mimelnk/application/x-%{name}-theme.desktop
+%{_datadir}/pixmaps/%{name}*.png
+%{_datadir}/icons/hicolor/48x48/mimetypes/*.png
+%{_datadir}/%{name}/*
+%{_mandir}/man1/%{name}*.1*
+
+%files -n %libname
+%defattr(-,root,root)
+%{_libdir}/lib%{name}engine.so.*
+%{_libdir}/%{name}/engines/*.so
+
+%files -n %libname_devel
+%defattr(-,root,root)
+%{_libdir}/pkgconfig/%{name}engine.pc
+%dir %{_includedir}/%{name}
+%{_includedir}/%{name}/*
+%{_libdir}/lib%{name}engine.so
+%{_libdir}/lib%{name}engine.a
+%{_libdir}/lib%{name}engine.la
+%{_libdir}/%{name}/engines/*.a
+%{_libdir}/%{name}/engines/*.la
 

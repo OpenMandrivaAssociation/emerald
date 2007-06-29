@@ -38,6 +38,7 @@ Requires(postun): desktop-file-utils
 
 Requires: compiz
 Requires: emerald-themes
+Provides: compiz-decorator
 
 %description
 Themable window decorator for the Compiz window manager/compositor

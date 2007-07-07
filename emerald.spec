@@ -32,6 +32,9 @@ BuildRequires: apr-util-devel
 BuildRequires: subversion-devel
 BuildRequires: neon-devel
 BuildRequires: intltool
+BuildRequires: gtk2-devel
+BuildRequires: libwnck-devel
+BuildRequires: pango-devel
 BuildRequires: desktop-file-utils
 Requires(post): desktop-file-utils
 Requires(postun): desktop-file-utils

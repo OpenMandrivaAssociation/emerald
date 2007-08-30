@@ -65,11 +65,11 @@ Provides: %libname = %version
 %description -n %libname
 Library files for %{name}
 
+# Don't put a spacer comment below as it breaks things :/
 %post -n %libname -p /sbin/ldconfig
-
 %postun -n %libname -p /sbin/ldconfig
 
-#----------------------------------------------------------------------------
+
 
 %package -n %libname_devel
 Summary: Development files from %{name}

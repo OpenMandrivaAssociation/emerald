@@ -1,6 +1,6 @@
 %define name emerald
 %define version 0.5.2
-%define rel 1
+%define rel 2
 %define git 0
 
 %define major 0
@@ -111,8 +111,9 @@ sed -i 's/^\( \)*$//' %{buildroot}%{_datadir}/applications/emerald-theme-manager
 
 desktop-file-install \
   --vendor="" \
-  --remove-category="Settings" \
-  --add-category="X-MandrivaLinux-System-Configuration-Other" \
+  --add-category="GTK" \
+  --add-category="DesktopSettings" \
+  --add-category="X-MandrivaLinux-CrossDesktop" \
   --dir %{buildroot}%{_datadir}/applications \
   %{buildroot}%{_datadir}/applications/*.desktop
 

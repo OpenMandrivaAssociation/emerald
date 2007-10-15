@@ -1,6 +1,6 @@
 %define name emerald
 %define version 0.5.2
-%define rel 2
+%define rel 3
 %define git 0
 
 %define major 0
@@ -78,6 +78,7 @@ Requires: %libname = %{version}
 Provides: lib%{name}-devel = %{version}
 Provides: %{name}-devel = %{version}
 Obsoletes: %{name}-devel
+Obsoletes: %mklibname -d %name 0
 Obsoletes: cgwd-devel
 
 %description -n %libname_devel

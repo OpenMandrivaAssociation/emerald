@@ -25,7 +25,6 @@ Group: System/X11
 URL: http://www.compiz-fusion.org/
 Source: %{srcname}.tar.bz2
 License: GPL
-BuildRoot: %{_tmppath}/%{name}-root
 BuildRequires: compiz-devel
 BuildRequires: apr-devel
 BuildRequires: apr-util-devel

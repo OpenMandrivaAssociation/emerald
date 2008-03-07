@@ -1,7 +1,7 @@
 %define name emerald
-%define version 0.6.0
-%define rel 1
-%define git 20080210
+%define version 0.7.2
+%define rel 0.1
+%define git 0
 
 %define major 0
 %define libname %mklibname %{name} %major

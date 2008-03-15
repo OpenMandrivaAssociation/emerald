@@ -1,6 +1,6 @@
 %define name emerald
 %define version 0.7.2
-%define rel 1
+%define rel 2
 %define git 0
 
 %define major 0
@@ -24,6 +24,8 @@ Summary: Window decorator for Compiz
 Group: System/X11
 URL: http://www.compiz-fusion.org/
 Source: %{srcname}.tar.bz2
+Patch0: 0001-Workaroung-for-unrefd-pixmap.patch
+Patch1: 0002-Extended-pixmap-sanity-checks-to-honor-ref_count.patch
 License: GPL
 BuildRoot: %{_tmppath}/%{name}-root
 BuildRequires: compiz-devel

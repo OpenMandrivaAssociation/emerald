@@ -67,8 +67,12 @@ Provides: %libname = %version
 Library files for %{name}
 
 # Don't put a spacer comment below as it breaks things :/
+%if %mdkversion < 200900
 %post -n %libname -p /sbin/ldconfig
+%endif
+%if %mdkversion < 200900
 %postun -n %libname -p /sbin/ldconfig
+%endif
 
 
 

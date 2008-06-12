@@ -55,7 +55,6 @@ Themable window decorator for the Compiz window manager/compositor
 %clean_menus
 %{clean_desktop_database}
 
-#----------------------------------------------------------------------------
 
 %package -n %libname
 Summary: Library files for %{name}

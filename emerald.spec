@@ -47,13 +47,17 @@ Provides: compiz-decorator
 %description
 Themable window decorator for the Compiz window manager/compositor
 
+%if %mdkversion < 200900
 %post
 %update_menus
 %{update_desktop_database}
+%endif
 
+%if %mdkversion < 200900
 %postun
 %clean_menus
 %{clean_desktop_database}
+%endif
 
 
 %package -n %libname

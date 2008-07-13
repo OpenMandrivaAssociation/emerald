@@ -1,7 +1,7 @@
 %define name emerald
-%define version 0.7.6
+%define version 0.7.7
 %define rel 1
-%define git 0
+%define git 20080713
 %define _disable_ld_no_undefined 1
 
 %define major 0
@@ -115,13 +115,9 @@ rm -rf %{buildroot}
 %makeinstall_std
 %find_lang %{name}
 
-sed -i 's/Exec=emerald-theme-manager -i//' %{buildroot}%{_datadir}/applications/emerald-theme-manager.desktop
-sed -i 's/^\( \)*$//' %{buildroot}%{_datadir}/applications/emerald-theme-manager.desktop
-
 desktop-file-install \
   --vendor="" \
   --add-category="GTK" \
-  --add-category="DesktopSettings" \
   --add-category="X-MandrivaLinux-CrossDesktop" \
   --dir %{buildroot}%{_datadir}/applications \
   %{buildroot}%{_datadir}/applications/*.desktop

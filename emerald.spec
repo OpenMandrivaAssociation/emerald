@@ -1,7 +1,7 @@
 %define name emerald
-%define version 0.7.7
+%define version 0.7.8
 %define rel 1
-%define git 20080713
+%define git 20080912
 %define _disable_ld_no_undefined 1
 
 %define major 0

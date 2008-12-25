@@ -25,6 +25,8 @@ Summary: Window decorator for Compiz
 Group: System/X11
 URL: http://www.compiz-fusion.org/
 Source: http://releases.compiz-fusion.org/%{version}/%{srcname}
+# Fix string literal errors - AdamW 2008/12
+Patch0: emerald-0.7.8-literal.patch
 License: GPL
 BuildRoot: %{_tmppath}/%{name}-root
 BuildRequires: compiz-devel
@@ -96,6 +98,7 @@ Headers files for %{name}
 
 %prep
 %setup -q -n %{distname}
+%patch0 -p1 -b .literal
 
 %build
 %if %{git}

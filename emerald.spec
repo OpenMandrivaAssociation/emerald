@@ -1,7 +1,7 @@
 %define name emerald
 %define version 0.7.8
 %define rel 1
-%define git 20080912
+%define git 0
 %define _disable_ld_no_undefined 1
 
 %define major 0
@@ -9,11 +9,11 @@
 %define libname_devel %mklibname -d %{name}
 
 %if  %{git}
-%define srcname %{name}-%{git}
+%define srcname %{name}-%{git}.tar.lzma
 %define distname %{name}
 %define release %mkrel 0.%{git}.%{rel}
 %else
-%define srcname %{name}-%{version}
+%define srcname %{name}-%{version}.tar.bz2
 %define distname %{name}-%{version}
 %define release %mkrel %{rel}
 %endif
@@ -24,7 +24,7 @@ Release: %release
 Summary: Window decorator for Compiz
 Group: System/X11
 URL: http://www.compiz-fusion.org/
-Source: %{srcname}.tar.bz2
+Source: http://releases.compiz-fusion.org/%{version}/%{srcname}
 License: GPL
 BuildRoot: %{_tmppath}/%{name}-root
 BuildRequires: compiz-devel

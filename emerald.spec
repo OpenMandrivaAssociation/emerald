@@ -1,7 +1,7 @@
 %define name emerald
-%define version 0.8.0
+%define version 0.8.2
 %define rel 1
-%define git 20090208
+%define git 0
 
 %define major 0
 %define libname %mklibname %{name} %major
@@ -152,7 +152,7 @@ rm -rf %{buildroot}
 
 %files -n %libname
 %defattr(-,root,root)
-%{_libdir}/lib%{name}engine.so.*
+%{_libdir}/lib%{name}engine.so.%{major}*
 %{_libdir}/%{name}/engines/*.so
 
 %files -n %libname_devel

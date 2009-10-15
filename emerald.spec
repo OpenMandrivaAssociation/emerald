@@ -1,6 +1,6 @@
 %define name emerald
-%define version 0.8.2
-%define rel 2
+%define version 0.8.4
+%define rel 1
 %define git 0
 
 %define major 0
@@ -27,7 +27,7 @@ Source: http://releases.compiz-fusion.org/%{version}/%{srcname}
 Patch1: 0001-Allow-build-with-Werror-format-security.patch
 License: GPL
 BuildRoot: %{_tmppath}/%{name}-root
-BuildRequires: compiz-devel
+BuildRequires: compiz-devel >= %{version}
 BuildRequires: apr-devel
 BuildRequires: apr-util-devel
 BuildRequires: subversion-devel
@@ -47,18 +47,7 @@ Provides: compiz-decorator
 %description
 Themable window decorator for the Compiz window manager/compositor
 
-%if %mdkversion < 200900
-%post
-%update_menus
-%{update_desktop_database}
-%endif
-
-%if %mdkversion < 200900
-%postun
-%clean_menus
-%{clean_desktop_database}
-%endif
-
+#----------------------------------------------------------------------------
 
 %package -n %libname
 Summary: Library files for %{name}
@@ -69,15 +58,7 @@ Provides: %libname = %version
 %description -n %libname
 Library files for %{name}
 
-# Don't put a spacer comment below as it breaks things :/
-%if %mdkversion < 200900
-%post -n %libname -p /sbin/ldconfig
-%endif
-%if %mdkversion < 200900
-%postun -n %libname -p /sbin/ldconfig
-%endif
-
-
+#----------------------------------------------------------------------------
 
 %package -n %libname_devel
 Summary: Development files from %{name}
@@ -103,12 +84,7 @@ Headers files for %{name}
   # This is a GIT snapshot, so we need to generate makefiles.
   sh autogen.sh -V
 %endif
-%configure2_5x \
-                --disable-mime-update \
-                --with-apr-config=apr-1-config \
-                --with-apu-config=apu-1-config \
-                --with-svn-lib=%_libdir
-
+%configure2_5x --disable-mime-update
 %make
 
 %install

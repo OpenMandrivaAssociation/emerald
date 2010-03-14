@@ -1,6 +1,6 @@
 %define name emerald
 %define version 0.8.4
-%define rel 1
+%define rel 2
 %define git 0
 
 %define major 0
@@ -25,7 +25,8 @@ Group: System/X11
 URL: http://www.compiz-fusion.org/
 Source: http://releases.compiz-fusion.org/%{version}/%{srcname}
 Patch1: 0001-Allow-build-with-Werror-format-security.patch
-License: GPL
+Patch2: emerald-0.8.4-fix-gtk-widgets-reference.patch
+License: GPLv2
 BuildRoot: %{_tmppath}/%{name}-root
 BuildRequires: compiz-devel >= %{version}
 BuildRequires: apr-devel
@@ -45,7 +46,7 @@ Requires: emerald-themes
 Provides: compiz-decorator
 
 %description
-Themable window decorator for the Compiz window manager/compositor
+Themeable window decorator for the Compiz window manager/compositor
 
 #----------------------------------------------------------------------------
 
@@ -78,6 +79,7 @@ Headers files for %{name}
 %prep
 %setup -q -n %{distname}
 %patch1 -p1
+%patch2 -p0
 
 %build
 %if %{git}

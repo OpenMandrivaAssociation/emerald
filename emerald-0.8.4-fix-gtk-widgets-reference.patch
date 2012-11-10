@@ -1,0 +1,31 @@
+--- src/main.c	2009-10-14 02:56:23.000000000 +0200
++++ src/main.c.new	2010-03-14 00:52:52.029468041 +0200
+@@ -3757,7 +3757,7 @@
+ 
+ static void hide_tooltip(void)
+ {
+-    if (GTK_WIDGET_VISIBLE(tip_window))
++    if (gtk_widget_get_visible(tip_window))
+ 	g_get_current_time(&tooltip_last_popdown);
+ 
+     gtk_widget_hide(tip_window);
+--- libengine/themer.c	2009-10-14 02:56:23.000000000 +0200
++++ libengine/themer.c.new	2010-03-14 02:25:33.948468415 +0200
+@@ -461,7 +461,7 @@
+ }
+ gdouble get_float(SettingItem * item)
+ {
+-    if(!strcmp(GTK_OBJECT_TYPE_NAME(item->widget),"GtkSpinButton")) {
++    if(!strcmp(G_OBJECT_TYPE_NAME(item->widget),"GtkSpinButton")) {
+          return gtk_spin_button_get_value((GtkSpinButton *)item->widget);
+     }
+     else {
+@@ -647,7 +647,7 @@
+ }
+ void set_float(SettingItem * item, gdouble f)
+ {
+-    if(!strcmp(GTK_OBJECT_TYPE_NAME(item->widget),"GtkSpinButton")) {
++    if(!strcmp(G_OBJECT_TYPE_NAME(item->widget),"GtkSpinButton")) {
+          gtk_spin_button_set_value((GtkSpinButton *)item->widget, f);
+     } 
+     else {

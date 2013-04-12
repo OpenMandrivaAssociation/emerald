@@ -1,102 +1,77 @@
-%define name emerald
-%define version 0.8.4
-%define rel 3
-%define git 0
+%define __noautoreq 'pkgconfig\\(libdecoration\\)'
 
 %define major 0
-%define libname %mklibname %{name} %major
-%define libname_devel %mklibname -d %{name}
+%define libname %mklibname %{name}engine %{major}
+%define devname %mklibname -d %{name}engine
 
-%if  %{git}
-%define srcname %{name}-%{git}.tar.lzma
-%define distname %{name}
-%define release %mkrel 0.%{git}.%{rel}
-%else
-%define srcname %{name}-%{version}.tar.bz2
-%define distname %{name}-%{version}
-%define release %mkrel %{rel}
-%endif
+Name:		emerald
+Version:	0.8.8
+Release:	1
+Summary:	Window decorator for Compiz
+Group:		System/X11
+License:	GPLv2
+URL:		http://www.compiz.org/
+Source:		http://releases.compiz.org/components/emerald/%{name}-%{version}.tar.bz2
+BuildRequires:	desktop-file-utils
+BuildRequires:	intltool
+BuildRequires:	subversion-devel
+BuildRequires:	compiz0.8-devel
+BuildRequires:	pkgconfig(apr-1)
+BuildRequires:	pkgconfig(apr-util-1)
+BuildRequires:	pkgconfig(gtk+-2.0)
+BuildRequires:	pkgconfig(libwnck-1.0)
+BuildRequires:	pkgconfig(neon)
+BuildRequires:	pkgconfig(pango)
 
-Name: %name
-Version: %version
-Release: %release
-Summary: Window decorator for Compiz
-Group: System/X11
-URL: http://www.compiz-fusion.org/
-Source: http://releases.compiz-fusion.org/%{version}/%{srcname}
-Patch1: 0001-Allow-build-with-Werror-format-security.patch
-Patch2: emerald-0.8.4-fix-gtk-widgets-reference.patch
-License: GPLv2
-BuildRoot: %{_tmppath}/%{name}-root
-BuildRequires: compiz-devel >= %{version}
-BuildRequires: apr-devel
-BuildRequires: apr-util-devel
-BuildRequires: subversion-devel
-BuildRequires: neon-devel
-BuildRequires: intltool
-BuildRequires: gtk2-devel
-BuildRequires: libwnck-devel
-BuildRequires: pango-devel
-BuildRequires: desktop-file-utils
-Requires(post): desktop-file-utils
-Requires(postun): desktop-file-utils
-
-Requires: compiz
-Requires: emerald-themes
-Provides: compiz-decorator
+Requires:	compiz0.8
+Requires:	emerald-themes
+Provides:	compiz-decorator = %{version}-%{release}
 
 %description
-Themeable window decorator for the Compiz window manager/compositor
+Themeable window decorator for the Compiz window manager/compositor.
 
 #----------------------------------------------------------------------------
 
-%package -n %libname
-Summary: Library files for %{name}
-Group: System/X11
-Requires: %{name} = %{version}
-Provides: %libname = %version
+%package -n %{libname}
+Summary:	Library files for %{name}
+Group:		System/X11
+Conflicts:	%{_lib}name
 
-%description -n %libname
-Library files for %{name}
+%description -n %{libname}
+Library files for %{name}.
 
 #----------------------------------------------------------------------------
 
-%package -n %libname_devel
-Summary: Development files from %{name}
-Group: Development/Other
-Requires: %libname = %{version}
-Provides: lib%{name}-devel = %{version}
-Provides: %{name}-devel = %{version}
-Obsoletes: %{name}-devel
-Obsoletes: %mklibname -d %name 0
-Obsoletes: cgwd-devel
+%package -n %{devname}
+Summary:	Development files from %{name}
+Group:		Development/Other
+Requires:	%{libname} = %{version}-%{release}
+Requires:	compiz0.8-devel
+Provides:	%{name}-devel = %{version}-%{release}
+Conflicts:	%{_lib}name-devel
 
-%description -n %libname_devel
-Headers files for %{name}
+%description -n %{devname}
+Development files from %{name}.
 
 #----------------------------------------------------------------------------
 
 %prep
-%setup -q -n %{distname}
-%patch1 -p1
-%patch2 -p0
+%setup -q
 
 %build
-%if %{git}
-  # This is a GIT snapshot, so we need to generate makefiles.
-  sh autogen.sh -V
-%endif
-%configure2_5x --disable-mime-update
-%make
+%configure2_5x \
+	--disable-mime-update \
+	--disable-static
+
+%make LIBS="-ldl -lm"
 
 %install
-rm -rf %{buildroot}
 %makeinstall_std
+
 %find_lang %{name}
 
 desktop-file-install \
   --vendor="" \
-  --add-category="GTK" \
   --add-category="X-MandrivaLinux-CrossDesktop" \
   --dir %{buildroot}%{_datadir}/applications \
   %{buildroot}%{_datadir}/applications/*.desktop
@@ -110,37 +85,27 @@ MimeType=application/x-emerald-theme
 Patterns=*.emerald
 EOF
 
-%clean
-rm -rf %{buildroot}
-
 #----------------------------------------------------------------------------
 
 %files -f %{name}.lang
-%defattr(-,root,root)
-%doc AUTHORS  ChangeLog README COPYING 
+%doc AUTHORS ChangeLog README COPYING
 %{_bindir}/%{name}*
+%{_libdir}/%{name}/engines/*.so
 %{_datadir}/applications/%{name}*.desktop
 %{_datadir}/mime-info/%{name}.mime
 %{_datadir}/mime/packages/%{name}.xml
 %{_datadir}/mimelnk/application/x-%{name}-theme.desktop
 %{_datadir}/pixmaps/%{name}*.png
-%{_datadir}/icons/hicolor/48x48/mimetypes/*.png
+%{_iconsdir}/hicolor/48x48/mimetypes/*.png
 %{_datadir}/%{name}/*
 %{_mandir}/man1/%{name}*.1*
 
-%files -n %libname
-%defattr(-,root,root)
+%files -n %{libname}
 %{_libdir}/lib%{name}engine.so.%{major}*
-%{_libdir}/%{name}/engines/*.so
 
-%files -n %libname_devel
-%defattr(-,root,root)
+%files -n %{devname}
 %{_libdir}/pkgconfig/%{name}engine.pc
 %dir %{_includedir}/%{name}
 %{_includedir}/%{name}/*
 %{_libdir}/lib%{name}engine.so
-%{_libdir}/lib%{name}engine.a
-%{_libdir}/lib%{name}engine.la
-%{_libdir}/%{name}/engines/*.a
-%{_libdir}/%{name}/engines/*.la
 

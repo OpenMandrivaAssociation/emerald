@@ -6,7 +6,7 @@
 
 Name:		emerald
 Version:	0.8.8
-Release:	1
+Release:	2
 Summary:	Window decorator for Compiz
 Group:		System/X11
 License:	GPLv2

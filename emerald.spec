@@ -12,7 +12,7 @@ Summary:            Window Decorator for Compiz
 Group:              System/X11
 License:            GPLv2+
 URL:                https://github.com/compiz-reloaded/%{name}
-Source0:            https://github.com/compiz-reloaded/%{name}/archive/v%{version}/%{name}-%{version}.tar.bz2
+Source0:            https://gitlab.com/compiz/emerald/-/archive/v%{version}/%{name}-v%{version}.tar.bz2
 
 BuildRequires:      gettext-devel
 BuildRequires:      intltool
@@ -66,12 +66,12 @@ This package contains static libraries and header files needed for development.
 #----------------------------------------------------------------------------
 
 %prep
-%autosetup
+%autosetup -qn %{name}-v%{version}
 
 
 %build
 NOCONFIGURE=1 ./autogen.sh
-%configure2_5x \
+%configure \
     --disable-rpath \
     --disable-static \
     --disable-mime-update \

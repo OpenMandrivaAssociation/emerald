@@ -12,7 +12,7 @@ Summary:            Window Decorator for Compiz
 Group:              System/X11
 License:            GPLv2+
 URL:                https://github.com/compiz-reloaded/%{name}
-Source0:            https://github.com/compiz-reloaded/%{name}/archive/v%{version}/%{name}-%{version}.tar.gz
+Source0:            https://github.com/compiz-reloaded/%{name}/archive/v%{version}/%{name}-%{version}.tar.bz2
 
 BuildRequires:      gettext-devel
 BuildRequires:      intltool

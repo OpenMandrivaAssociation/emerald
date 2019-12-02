@@ -66,8 +66,7 @@ This package contains static libraries and header files needed for development.
 #----------------------------------------------------------------------------
 
 %prep
-%autosetup -qn %{name}-v%{version}
-
+%setup -qn %{name}-v%{version}
 
 %build
 NOCONFIGURE=1 ./autogen.sh

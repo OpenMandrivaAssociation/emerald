@@ -24,10 +24,8 @@ BuildRequires:      pkgconfig(pangocairo)
 BuildRequires:      pkgconfig(xrender)
 BuildRequires:      pkgconfig(xi)
 
-Requires:           compiz >= 1:0.8.16
+Recommends:           compiz
 Provides:           compiz-decorator
-
-Conflicts:          %{_lib}emerald0 < 0.8.16-2
 
 Recommends:         %{name}-themes
 

@@ -6,7 +6,7 @@
 %global __provides_exclude_from %{_libdir}/%{name}/engines/.*\\.so
 
 Name:               emerald
-Version:            0.8.16
+Version:            0.8.18
 Release:            1
 Summary:            Window Decorator for Compiz
 Group:              System/X11

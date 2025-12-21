@@ -14,6 +14,11 @@ License:            GPLv2+
 URL:                https://github.com/compiz-reloaded/%{name}
 Source0:            https://gitlab.com/compiz/emerald/-/archive/v%{version}/%{name}-v%{version}.tar.bz2
 
+BuildRequires:	autoconf
+BuildRequires:	automake
+BuildRequires:	libtool-base
+BuildRequires:	slibtool
+BuildRequires:	make
 BuildRequires:      gettext-devel
 BuildRequires:      intltool
 BuildRequires:      pkgconfig(gtk+-3.0)
